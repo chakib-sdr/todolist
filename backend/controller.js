@@ -21,3 +21,9 @@ export const signin = (req,res) => {
             message : 'token received' ,token
         })
 }
+
+export const getprofile = (req,res) => {
+    return res.status(200).json({
+        message : "it worked"
+    })
+}

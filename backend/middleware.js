@@ -1,5 +1,6 @@
 import pool from "./db.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 export const validatecreatingprofile =  (req,res,next) => {
     const {name , mdps} = req.body ?? {};
     if(typeof(name) !== 'string' || name.length <1){
@@ -32,3 +33,19 @@ export const checkuser = async (req,res,next) => {
     req.user = {id : user.id , name : user.name}
     next();
 }
+
+export const verifytoken = (req, res, next) => {
+  const header = req.headers.authorization;
+  const token = header?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "token required" });
+  }
+
+  try {
+    req.user = jwt.verify(token, process.env.SECRET_KEY);
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "invalid or expired token" });
+  }
+};
