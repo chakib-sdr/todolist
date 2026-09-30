@@ -1,7 +1,6 @@
 import pool from "./db.js";
 import bcrypt from "bcrypt";
-import { JsonWebTokenError } from "jsonwebtoken";
-const jwt = JsonWebTokenError();
+import jwt from "jsonwebtoken";
 
 export const createprofile = async (req,res) => {
    const {name , mdps} = req.body;
@@ -14,11 +13,11 @@ export const createprofile = async (req,res) => {
 
 export const signin = (req,res) => {
       const playload = {
-            name : user.name ,
-            mdps : user.mdps
+            id : req.user.id,
+            name : req.user.name
         }
-        const token = jwt.sign(playload , process.env.SECRET_KEY, '1h');
+        const token = jwt.sign(playload , process.env.SECRET_KEY, { expiresIn: "1h" });
         return res.status(201).json({
-            message : 'token received'
+            message : 'token received' ,token
         })
 }
