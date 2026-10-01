@@ -1,10 +1,9 @@
 import "dotenv/config";
+import cors from "cors";
 import express from "express";
-import { routerprofile , routersignin , routertoken} from "./route.js";
+import { router} from "./route.js";
 const server = express();
-
+server.use(cors());
 server.use(express.json());
-server.use("/", routerprofile);
-server.use("/", routersignin);
-server.use("/",routertoken);
+server.use("/", router);
 server.listen(3000);

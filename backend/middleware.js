@@ -27,7 +27,7 @@ export const checkuser = async (req,res,next) => {
     const user = result.rows[0];
     if(!user || await bcrypt.compare(mdps,user.mdps) === false){
         return res.status(403).json({
-            message : "invalid password"
+            message : "invalid password or username"
         })
     }
     req.user = {id : user.id , name : user.name}
@@ -49,3 +49,14 @@ export const verifytoken = (req, res, next) => {
     return res.status(401).json({ message: "invalid or expired token" });
   }
 };
+
+
+export const verifytask = async (req,res,next) => {
+    const {task,date} = req.body ?? {}
+    if(typeof(task) !== "string" || typeof(date) !== "string"){
+        return res.status(400).json({
+            message : "Enter required information"
+        })       
+    }
+    next()
+}

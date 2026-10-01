@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { validatecreatingprofile , checkuser , verifytoken } from "./middleware.js";
-import { createprofile , signin , getprofile } from "./controller.js";
+import { validatecreatingprofile , checkuser , verifytoken , verifytask} from "./middleware.js";
+import { createprofile , signin , getprofile , createtodo ,removetodo , showtodo } from "./controller.js";
 
-export const routerprofile = Router();
-export const routersignin = Router();
-export const routertoken = Router();
+export const router = Router();
+router.post("/createprofile", validatecreatingprofile , createprofile);
 
-routerprofile.post("/createprofile", validatecreatingprofile , createprofile);
-
-routersignin.post("/login",checkuser ,signin);
-routertoken.get('/profile', verifytoken, getprofile);
+router.post("/login",checkuser ,signin);
+router.get('/profile', verifytoken, getprofile);
+router.get("/todo", verifytoken , showtodo)
+router.post("/todo",verifytoken, verifytask, createtodo);
+router.delete("/todo/:id", verifytoken , removetodo);
