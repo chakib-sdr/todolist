@@ -17,7 +17,9 @@ export const createprofile = async (req, res) => {
   }
 };
 
-export const signin = (req,res) => {
+
+export const signin = (req,res) => { 
+    try {
       const payload = {
             id : req.user.id,
             name : req.user.name
@@ -26,30 +28,43 @@ export const signin = (req,res) => {
         return res.status(201).json({
             message : 'token received' ,token
         })
-}
+} 
+catch (err) { console.error(err); return res.status(500).json({ message: "server error" }); } }
 
-export const getprofile = (req,res) => {
+
+export const getprofile = (req,res) => { 
+    try {
     return res.status(200).json({
         message : "it worked"
     })
-}
+} 
+catch (err) { console.error(err); return res.status(500).json({ message: "server error" }); } }
 
-export const createtodo = async (req,res) => {
+
+export const createtodo = async (req,res) => { 
+    try {
     const {task,date} = req.body;
     await pool.query("INSERT INTO list (task, user_id, date) VALUES($1,$2,$3)",[task,req.user.id,date]);
     return res.status(200).json({
         message : "task created"
     })
-}
+} 
+catch (err) { console.error(err); return res.status(500).json({ message: "server error" }); } }
 
-export const removetodo = async (req,res) => {
+
+export const removetodo = async (req,res) => { 
+    try {
     await pool.query("DELETE FROM list WHERE id = $1 AND user_id = $2",[req.params.id,req.user.id]);
     return res.status(200).json({
         message : "task deleted"
     })
-}
+} 
+catch (err) { console.error(err); return res.status(500).json({ message: "server error" }); } }
 
-export const showtodo = async(req,res) => {
+
+export const showtodo = async(req,res) => { 
+    try {
     const { rows } = await pool.query("SELECT id, task, date, completed FROM list WHERE user_id = $1",[req.user.id]);
     return res.status(200).json(rows);
-}
+} 
+catch (err) { console.error(err); return res.status(500).json({ message: "server error" }); } }
