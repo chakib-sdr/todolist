@@ -1,22 +1,5 @@
 
-
-export function Header({ oncreate, onlogin }){
-    return(
-        <div className="headercontainer">
-            <div className="con">
-                <img className="icon" src="document-svgrepo-com.svg" alt="icon" />
-                <h1>to do</h1>
-            </div>
-            <div className="buttons">
-                <button id="log" onClick={onlogin}>Log in</button>
-                <button onClick={oncreate}>Create Account</button>
-            </div>
-        </div>
-    )
-}
-
-
-async function handlesubmit(e,onback) {
+async function login(e,onlogin) {
     e.preventDefault();
 
     const form = e.target;
@@ -27,10 +10,10 @@ async function handlesubmit(e,onback) {
     };
 
     try {
-        const res = await fetch("http://localhost:3000/createprofile", {
+        const res = await fetch("http://localhost:3000/login", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(data)
         });
@@ -40,18 +23,17 @@ async function handlesubmit(e,onback) {
         if(!res.ok){
             return console.log("Error:", result.message); 
         }
-
+      localStorage.setItem("token",result.token)
       console.log(result.message);
-      onback();
+      onlogin(result.token)
     } catch (error) {
       console.log("An Error occured", error);
     }
-
 }
 
-export function Register({ onback }){
+export function Login({ onback , onlogin }){
     return (
-        <form className="formcreateaccount" onSubmit={(e) => handlesubmit(e,onback)}>
+        <form className="formcreateaccount" onSubmit={(e) => login(e,onlogin)}>
           <div>
             <label htmlFor="name">Name:</label>
             <input name="name" type="text" placeholder="user_name"/>
