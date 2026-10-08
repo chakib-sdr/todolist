@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-export function Main() {
+export function Main({logout}) {
   const [showForm, setShowForm] = useState(false);
   const [list, setlist] = useState([]);
   const [reload, setReload] = useState(0);
-
+  const [filter, setFilter] = useState("today");
   useEffect(() => {
     let ignore = false;
 
@@ -17,24 +17,61 @@ export function Main() {
           console.log("couldn t get data");
           return;
         }
+        if(res.status === 401){
+          logout()
+        }
         const data = await res.json();
         if (!ignore) setlist(data);
       } catch (error) {
         console.log("Server Error", error);
+        
       }
     }
 
     show();
     return () => { ignore = true; };
-  }, [reload]);
+  }, [reload,logout]);
+
+    async function remove(id) {
+    try {
+      const res = await fetch(`http://localhost:3000/todo/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      if (!res.ok) {
+        console.log("couldnt delete it");
+        return;
+      }
+      setlist((old) => old.filter((t) => t.id !== id));
+    } catch (error) {
+      console.log("an Error happened", error);
+  
+    }
+  }
+  const today = new Date().toLocaleDateString("en-CA");
+
+  const visible = list.filter((t) =>
+    filter === "today" ? t.date === today : t.date > today
+  );
 
   return (
-    <div>
+    <div className="mainlayout">
       <div className="sidecontainer">
         <div className="sidecontainerbuttons">
-          <button>Today</button>
-          <button>Upcoming</button>
-          <button onClick={() => setShowForm(true)}>Create todo</button>
+          <button
+            className={filter === "today" ? "active" : ""}
+            onClick={() => { setFilter("today"); setShowForm(false); }}
+          >
+            Today
+          </button>
+          <button
+            className={filter === "upcoming" ? "active" : ""}
+            onClick={() => { setFilter("upcoming"); setShowForm(false); }}
+          >
+            Upcoming
+          </button>
+          <button className="create" onClick={() => setShowForm(true)}>Create todo</button>
+          <button className="logout" onClick={logout}>Log out</button>
         </div>
       </div>
 
@@ -46,9 +83,20 @@ export function Main() {
           />
         )}
 
-        {!showForm && list.map((t) => (
-          <Showtask key={t.id} task={t.task} date={t.date} />
-        ))}
+        {!showForm && (
+          <>
+            <h2>{filter === "today" ? "Today" : "Upcoming"}</h2>
+            {visible.length === 0 && <p className="empty">Nothing here yet.</p>}
+            {visible.map((t) => (
+              <Showtask
+                key={t.id}
+                task={t.task}
+                date={t.date}
+                onremove={() => remove(t.id)}
+              />
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
@@ -94,21 +142,21 @@ async function handletask(e, onback, onCreated) {
       return console.log("Error:", result.message);
     }
     console.log(result.message);
-    onCreated();   // Main refetches the list
-    onback();      // close the form
+    onCreated();  
+    onback();      
   } catch (error) {
     console.log("An Error occured", error);
   }
 }
 
-function Showtask({ task, date }) {
+function Showtask({ task, date, onremove }) {
   return (
     <div className="card">
       <p>{task}</p>
-      <p>{date ? new Date(date).toLocaleDateString() : "no date"}</p>
+      <p>{date ? new Date(date + "T00:00:00").toLocaleDateString() : "no date"}</p>
       <input type="checkbox" name="completed" />
-      <button>
-        <img src="bin-delete-garbage-svgrepo-com.svg" alt="bin"/>
+      <button onClick={onremove}>
+        <img src="/bin-delete-garbage-svgrepo-com.svg" alt="bin" />
       </button>
     </div>
   );

@@ -1,3 +1,6 @@
+body {
+  margin: 0;
+}
 .headercontainer{
   display: flex;
   justify-content: space-between;
@@ -16,7 +19,6 @@
   margin-right: 50px;
   height: 80%;
   gap: 50px;
-
 }
 .buttons > button {
   font-family: Arial, Helvetica, sans-serif;
@@ -24,12 +26,18 @@
   font-size: larger;
   color: white;
   background-color: #fb5607;
-  border: none;
+  border: 2px solid #fb5607;
   border-radius: 5px;
+  padding: 0 16px;
 }
+
 #log{
-  color: black;
+  color: #fb5607;
   background-color: white;
+  border: 2px solid #fb5607;
+}
+button{
+  cursor: pointer;
 }
 button:hover{
   opacity: 0.5;
@@ -40,17 +48,16 @@ button:hover{
   height: 50px;
   width: 50px;
 }
+
 .contentcontainer{
   display: flex;
   justify-content: space-around;
   align-items: center;
-
 }
 .image_example{
   height: 500px;
   width: 500px;
 }
-
 .textcontainer > h1 {
   font-family: Arial, Helvetica, sans-serif;
   font-style: italic;
@@ -69,7 +76,6 @@ form {
   background-color: white;
   font-family: Arial, Helvetica, sans-serif;
 }
-
 input {
   width: 100%;
   padding: 12px 14px;
@@ -79,48 +85,154 @@ input {
   box-sizing: border-box;
   outline: none;
 }
-
 input:focus {
   border-color: #fb5607;
   box-shadow: 0 0 0 3px rgba(251, 86, 7, 0.15);
 }
-
-.buttonsform {
+.buttonsform{
   display: flex;
   gap: 12px;
   margin-top: 8px;
 }
-
-.buttonsform button {
+.buttonsform button{
   flex: 1;
   padding: 12px;
   font-size: 16px;
   font-weight: bold;
   border-radius: 8px;
-  cursor: pointer;
   border: none;
   background-color: #fb5607;
   color: white;
 }
+.buttonsform button[type="button"]{
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+.error{
+  color: #d62828;
+  font-size: 14px;
+  margin: 0;
+}
 
-.card{
+.mainlayout {
+  display: flex;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.sidecontainer {
+  width: 220px;
+  padding: 24px 16px;
+  background-color: #fffaf7;
+  border-right: 1px solid #f1e3db;
+}
+.sidecontainerbuttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+.sidecontainerbuttons button {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-left: 4px solid transparent;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #333;
+  transition: background-color 0.2s, color 0.2s;
+}
+.sidecontainerbuttons button:hover {
+  background-color: #ffe9de;
+  opacity: 1;
+}
+.sidecontainerbuttons button.active {
+  background-color: #ffe9de;
+  color: #fb5607;
+  border-left-color: #fb5607;
+}
+.sidecontainerbuttons button.create {
+  margin-top: 12px;
+  text-align: center;
+  background-color: #fb5607;
+  color: white;
+  border-left: none;
+}
+.sidecontainerbuttons button.create:hover {
+  background-color: #fb5607;
+  opacity: 0.8;
+}
+.sidecontainerbuttons button.logout {
+  margin-top: auto;
+  text-align: center;
+  background-color: transparent;
+  color: #d62828;
+  border: 1px solid #f0c4c4;
+}
+.sidecontainerbuttons button.logout:hover {
+  background-color: #d62828;
+  color: white;
+}
+
+.maincontainer {
+  flex: 1;
+  padding: 24px 40px;
+  max-width: 800px;
+}
+.maincontainer h2 {
+  margin-top: 0;
+  color: #fb5607;
+}
+.empty {
+  color: #999;
+}
+
+.card {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  gap: 16px;
+  margin-bottom: 12px;
+  padding: 14px 20px;
+  background-color: white;
+  border: 1px solid #eee;
+  border-left: 5px solid #fb5607;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bolder;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+.card > p {
+  margin: 0;
+}
+.card > p:first-child {
+  flex: 1;
+}
+.card > p:nth-child(2) {
+  color: #888;
+  font-weight: normal;
+  font-size: 14px;
 }
 .card > input {
-  height: 15px;
+  height: 18px;
   width: 20px;
+  accent-color: #fb5607;
 }
 .card > button {
   border: none;
   background-color: black;
   border-radius: 15px;
+  padding: 6px;
 }
-.card >button:hover{
+.card > button:hover {
   background-color: tomato;
+  opacity: 1;
 }
 button > img {
   height: 25px;

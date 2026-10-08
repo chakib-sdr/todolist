@@ -19,8 +19,7 @@ export function App() {
     if (token) {
         return (
             <div>
-                <Main></Main>
-                <button onClick={handleLogout}>Log out</button>
+                <Main logout={handleLogout}></Main>
             </div>
         )
     }
