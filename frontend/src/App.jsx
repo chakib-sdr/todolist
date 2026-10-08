@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Header, Register } from './header.jsx'
 import { Login } from './login.jsx'
 import { Home } from './content.jsx'
+import { Main } from './todo.jsx'
+
 import './App.css'
 
 export function App() {
-    const [page, setPage] = useState("home")   // "home" | "register" | "login"
+    const [page, setPage] = useState("home")  
     const [token, setToken] = useState(localStorage.getItem("token"))
 
     function handleLogout() {
@@ -17,6 +19,7 @@ export function App() {
     if (token) {
         return (
             <div>
+                <Main></Main>
                 <button onClick={handleLogout}>Log out</button>
             </div>
         )
@@ -27,7 +30,11 @@ export function App() {
     }
 
     if (page === "login") {
-        return <Login onback={() => setPage("home")} onLogin={(t) => setToken(t)} />
+        return (
+        <div>
+        <Login onback={() => setPage("home")} onlogin={(t) => setToken(t)} />
+        </div>
+)
     }
 
     return (

@@ -102,3 +102,27 @@ input:focus {
   background-color: #fb5607;
   color: white;
 }
+
+.card{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bolder;
+}
+.card > input {
+  height: 15px;
+  width: 20px;
+}
+.card > button {
+  border: none;
+  background-color: black;
+  border-radius: 15px;
+}
+.card >button:hover{
+  background-color: tomato;
+}
+button > img {
+  height: 25px;
+  width: 25px;
+}
